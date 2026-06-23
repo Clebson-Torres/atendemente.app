@@ -1,342 +1,799 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AtendeMente — Gestão para Psicólogos Autônomos</title>
   <meta name="description" content="AtendeMente é um sistema gratuito e offline-first para psicólogos autônomos gerenciarem pacientes, agendamentos, prontuários e financeiro." />
+  <meta name="keywords" content="psicologia, gestão consultório, prontuário eletrônico, agendamento, financeiro, offline, criptografia, open source" />
+  <meta name="author" content="AtendeMente" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AtendeMente — Gestão para Psicólogos Autônomos" />
+  <meta property="og:description" content="Sistema gratuito e offline-first para psicólogos. Criptografia AES-256, sem nuvem, sem assinatura." />
+  <meta property="og:url" content="https://atendemente.app" />
+  <meta property="og:site_name" content="AtendeMente" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AtendeMente — Gestão para Psicólogos Autônomos" />
+  <meta name="twitter:description" content="Sistema gratuito e offline-first para psicólogos. Criptografia AES-256, sem nuvem, sem assinatura." />
+  <link rel="canonical" href="https://atendemente.app" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Manrope', 'sans-serif'],
-            body: ['Newsreader', 'serif'],
-            sans: ['Manrope', 'sans-serif'],
-          },
-          colors: {
-            app: {
-              50: '#f7f5f2',
-              100: '#efebe5',
-              200: '#e2d9ce',
-              300: '#d4c5b3',
-              400: '#c7af96',
-              500: '#ba9a7c',
-              600: '#a88265',
-              700: '#8d6c53',
-              800: '#755a46',
-              900: '#614b3d',
-            },
-            teal: {
-              50: '#f4f9fa',
-              100: '#d4e7ec',
-              200: '#a9d0da',
-              300: '#6fb0c1',
-              400: '#4797ae',
-              500: '#2b7c93',
-              600: '#1f657b',
-              700: '#1a5566',
-              800: '#1a4855',
-              900: '#1a3d47',
-              950: '#0e2730',
-            },
-          },
-          borderRadius: {
-            'app': '28px',
-          },
-        }
-      }
-    }
+    tailwind.config={theme:{extend:{fontFamily:{display:['Manrope','sans-serif'],body:['Newsreader','serif'],sans:['Manrope','sans-serif']},colors:{app:{50:'#f7f5f2',100:'#efebe5',200:'#e2d9ce',300:'#d4c5b3',400:'#c7af96',500:'#ba9a7c',600:'#a88265',700:'#8d6c53',800:'#755a46',900:'#614b3d'},teal:{50:'#f4f9fa',100:'#d4e7ec',200:'#a9d0da',300:'#6fb0c1',400:'#4797ae',500:'#2b7c93',600:'#1f657b',700:'#1a5566',800:'#1a4855',900:'#1a3d47',950:'#0e2730'}},borderRadius:{app:'28px'}}}}
   </script>
-  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>" />
+  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#129504;</text></svg>" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AtendeMente","operatingSystem":"Windows, macOS, Linux","applicationCategory":"MedicalApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"description":"Sistema gratuito e offline-first para psicólogos autônomos.","url":"https://atendemente.app","softwareVersion":"1.0.16"}</script>
   <style>
-    html { scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-    }
-    .focus-ring { @apply focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2; }
-    .app-surface {
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(226,217,206,0.8);
-      border-radius: 28px;
-    }
-    .screenshot-frame {
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow:
-        0 1px 3px rgba(0,0,0,0.04),
-        0 8px 32px rgba(0,0,0,0.06);
-      border: 1px solid #e2d9ce;
-    }
+    html{scroll-behavior:smooth}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+    .focus-ring{@apply focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2}
+    .app-surface{background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border:1px solid rgba(226,217,206,.8);border-radius:28px}
+    .screenshot-frame{border-radius:28px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04),0 8px 32px rgba(0,0,0,.06);border:1px solid #e2d9ce}
+    .feature-card{transition:box-shadow .2s,transform .2s}.feature-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease-out}.faq-answer.open{max-height:500px}
+    #mobile-menu{max-height:0;overflow:hidden;transition:max-height .3s ease-out}#mobile-menu.open{max-height:400px}
   </style>
 </head>
-<body class="font-display text-slate-800 antialiased" style="background-color:#f7f5f2;background-image:radial-gradient(circle at top left,rgba(31,122,140,0.06),transparent 40%),linear-gradient(180deg,rgba(255,255,255,0.85),rgba(244,242,238,0.98));background-attachment:fixed;">
+<body class="font-display text-slate-800 antialiased" style="background-color:#f7f5f2;background-image:radial-gradient(circle at top left,rgba(31,122,140,.06),transparent 40%),linear-gradient(180deg,rgba(255,255,255,.85),rgba(244,242,238,.98));background-attachment:fixed">
 
-  <!-- ─── Navbar ─── -->
+  <!-- Navbar -->
   <header class="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
     <nav class="max-w-6xl mx-auto app-surface px-6 py-3 flex items-center justify-between shadow-sm">
       <a href="#" class="flex items-center gap-2.5" aria-label="AtendeMente">
-        <span class="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-bold" style="background-color:#1F7A8C;">A</span>
-        <span class="font-display font-semibold text-lg" style="color:#1a3d47;">AtendeMente</span>
+        <span class="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-bold" style="background-color:#1F7A8C">A</span>
+        <span class="font-display font-semibold text-lg" style="color:#1a3d47">AtendeMente</span>
       </a>
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
         <a href="#features" class="hover:text-teal-700 transition-colors duration-200 focus-ring rounded-lg px-1">Funcionalidades</a>
         <a href="#screenshots" class="hover:text-teal-700 transition-colors duration-200 focus-ring rounded-lg px-1">Capturas</a>
+        <a href="#differentials" class="hover:text-teal-700 transition-colors duration-200 focus-ring rounded-lg px-1">Diferenciais</a>
+        <a href="#faq" class="hover:text-teal-700 transition-colors duration-200 focus-ring rounded-lg px-1">FAQ</a>
         <a href="#about" class="hover:text-teal-700 transition-colors duration-200 focus-ring rounded-lg px-1">Sobre</a>
       </div>
-      <a href="#cta" class="inline-flex items-center gap-2 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors duration-200 focus-ring cursor-pointer" style="background-color:#2D8C5C;" onmouseover="this.style.backgroundColor='#23744B'" onmouseout="this.style.backgroundColor='#2D8C5C'">Começar</a>
+      <div class="flex items-center gap-3">
+        <a href="#cta" class="hidden sm:inline-flex items-center gap-2 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition-colors duration-200 focus-ring cursor-pointer" style="background-color:#2D8C5C">Comecar</a>
+        <button id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-app-100 transition-colors" aria-label="Abrir menu" aria-expanded="false">
+          <svg class="w-5 h-5" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
     </nav>
+    <div id="mobile-menu" class="max-w-6xl mx-auto mt-2 app-surface px-6 py-4 md:hidden shadow-sm space-y-3 text-sm font-medium text-slate-500">
+      <a href="#features" class="block hover:text-teal-700 transition-colors">Funcionalidades</a>
+      <a href="#screenshots" class="block hover:text-teal-700 transition-colors">Capturas</a>
+      <a href="#differentials" class="block hover:text-teal-700 transition-colors">Diferenciais</a>
+      <a href="#faq" class="block hover:text-teal-700 transition-colors">FAQ</a>
+      <a href="#about" class="block hover:text-teal-700 transition-colors">Sobre</a>
+      <a href="#cta" class="block text-white font-medium px-5 py-2.5 rounded-xl text-center" style="background-color:#2D8C5C">Comecar</a>
+    </div>
   </header>
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click',function(){var m=document.getElementById('mobile-menu'),e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',!e);m.classList.toggle('open')});
+    document.querySelectorAll('#mobile-menu a').forEach(function(l){l.addEventListener('click',function(){document.getElementById('mobile-menu').classList.remove('open');document.getElementById('menu-toggle').setAttribute('aria-expanded','false')})});
+  </script>
 
-  <!-- ─── Hero ─── -->
+  <!-- Hero -->
   <section class="min-h-screen flex items-center pt-24 pb-16 px-4">
     <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div class="space-y-6">
-        <div class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566;">
-          <span class="w-2 h-2 rounded-full" style="background-color:#2D8C5C;"></span>
-          Gratuito · Offline-first · Open Source
-        </div>
-        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight" style="color:#1a3d47;">
-          Gestão simples<br />
-          <span style="color:#1F7A8C;">para psicólogos</span>
-        </h1>
-        <p class="text-base md:text-lg text-slate-500 leading-relaxed max-w-lg font-body">
-          Organize pacientes, agendamentos, prontuários e finanças — tudo offline, com privacidade total e sem custo.
-        </p>
         <div class="flex flex-wrap items-center gap-3">
-          <a href="#cta" class="inline-flex items-center gap-2 text-white font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer shadow-sm" style="background-color:#1F7A8C;" onmouseover="this.style.backgroundColor='#1A6B7B'" onmouseout="this.style.backgroundColor='#1F7A8C'">
-            Baixar grátis
+          <div class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">
+            <span class="w-2 h-2 rounded-full" style="background-color:#2D8C5C"></span>
+            Gratuito &middot; Offline-first &middot; Open Source
+          </div>
+          <span class="text-xs font-medium px-2.5 py-1 rounded-full border" style="border-color:#a9d0da;color:#1a5566">v1.0.16</span>
+        </div>
+        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight" style="color:#1a3d47">
+          Gestao simples<br/><span style="color:#1F7A8C">para psicologos</span>
+        </h1>
+        <p class="text-base md:text-lg text-slate-500 leading-relaxed max-w-lg font-body">Organize pacientes, agendamentos, prontuarios e financas — tudo offline, com privacidade total e sem custo.</p>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="#cta" class="inline-flex items-center gap-2 text-white font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer shadow-sm" style="background-color:#1F7A8C">
+            Baixar gratis
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
-          <a href="#screenshots" class="inline-flex items-center gap-2 font-medium px-5 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer" style="color:#1F7A8C;" onmouseover="this.style.backgroundColor='#f4f9fa'" onmouseout="this.style.backgroundColor='transparent'">
-            Ver capturas
-          </a>
+          <a href="#features" class="inline-flex items-center gap-2 font-medium px-5 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer" style="color:#1F7A8C">Ver funcionalidades</a>
         </div>
-        <div class="flex items-center gap-6 text-sm pt-2" style="color:#1F7A8C;">
-          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Dados criptografados</span>
-          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Offline</span>
-          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Sem nuvem</span>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm pt-2" style="color:#1F7A8C">
+          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 122+ funcionalidades</span>
+          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Dados criptografados</span>
+          <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> R$ 0/mes</span>
         </div>
       </div>
       <div class="screenshot-frame shadow-xl">
-        <img src="screenshots/visaogeral.jpeg" alt="Tela inicial do AtendeMente mostrando dashboard com gráficos e indicadores" class="w-full h-auto" loading="lazy" />
+        <img src="screenshots/visaogeral.jpeg" alt="Dashboard do AtendeMente com graficos de atendimentos e receita mensal" class="w-full h-auto" loading="lazy"/>
       </div>
     </div>
   </section>
 
-  <!-- ─── Features ─── -->
+  <!-- Features -->
   <section id="features" class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-xs font-medium px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566;">Funcionalidades</span>
-        <h2 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight" style="color:#1a3d47;">Tudo que você precisa no dia a dia</h2>
-        <p class="text-slate-500 max-w-xl mx-auto font-body">Um sistema completo, pensado para a rotina do consultório particular.</p>
+    <div class="max-w-6xl mx-auto space-y-16">
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Funcionalidades</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Tudo que voce precisa para gerenciar seu consultorio</h2>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Cadastro de Pacientes</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Dados pessoais, histórico de saúde e medicamentos. Tudo criptografado ponta a ponta.</p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Row 1 -->
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Pacientes</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Cadastro completo com dados pessoais, historico medico, medicacoes em uso, e notas de administracao.</p>
         </div>
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Agenda de Atendimentos</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Visualização mensal, filtros por status, confirmação e séries recorrentes.</p>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Agenda Inteligente</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Agendamentos com recorrencia semanal, quinzenal ou mensal. Cancelamento individual ou de toda a serie.</p>
         </div>
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Prontuário por Sessão</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Registre anotações de cada atendimento com anexos. Recupere o histórico rapidamente.</p>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Prontuario Criptografado</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Notas por sessao com campos estruturados e livres. Anexos e observacoes criptografados com AES-256-GCM.</p>
         </div>
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Controle Financeiro</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Registre pagamentos com status (pago/pendente) e método (PIX, cartão, dinheiro).</p>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Financeiro</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Pagamentos por sessao com status, valor, data. Graficos de receita mensal e relatorios exportaveis.</p>
         </div>
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Dashboard e Relatórios</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Gráficos de atendimentos mensais e receita. Exporte dados em CSV ou PDF.</p>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Backup & Restauracao</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Arquivo .atendemente com criptografia AES-256-GCM. Backup automatico configuravel, restauracao com uma senha.</p>
         </div>
-        <div class="app-surface p-6 transition-all duration-200 cursor-pointer" onmouseover="this.style.boxShadow='0 4px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background-color:#d4e7ec;">
-            <svg class="w-5 h-5" style="color:#1F7A8C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          </div>
-          <h3 class="font-display font-semibold text-lg mb-2" style="color:#1a3d47;">Privacidade Total</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Criptografia AES-256. Nenhum dado sai do seu computador. Sem nuvem, sem assinatura.</p>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Acesso Mobile</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Acesse o sistema pelo celular na mesma rede WiFi. QR code para pareamento rapido, sem app separado.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── Screenshots ─── -->
-  <section id="screenshots" class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-xs font-medium px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566;">Capturas de tela</span>
-        <h2 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight" style="color:#1a3d47;">Conheça o sistema</h2>
-        <p class="text-slate-500 max-w-xl mx-auto font-body">Veja como o AtendeMente funciona na prática.</p>
-      </div>
-      <div class="space-y-12">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div class="screenshot-frame shadow-lg">
-            <img src="screenshots/pacientes.jpeg" alt="Tela de listagem de pacientes com barra de busca" class="w-full h-auto" loading="lazy" />
-          </div>
-          <div class="space-y-3">
-            <h3 class="font-display text-2xl font-bold tracking-tight" style="color:#1a3d47;">Pacientes</h3>
-            <p class="text-slate-500 leading-relaxed font-body">Cadastro completo com busca por nome, telefone ou email. Filtro por status (ativo/inativo). Visualização detalhada com histórico completo de atendimentos e arquivos.</p>
-          </div>
+        <!-- Row 2 -->
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Seguranca Profunda</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Auto-lock, rate limiting, chave de criptografia no keychain do sistema, HKDF-SHA256, sem coleta de dados.</p>
         </div>
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div class="screenshot-frame shadow-lg md:order-2">
-            <img src="screenshots/agenda.jpeg" alt="Tela de agenda mensal com grade de horários" class="w-full h-auto" loading="lazy" />
-          </div>
-          <div class="space-y-3 md:order-1">
-            <h3 class="font-display text-2xl font-bold tracking-tight" style="color:#1a3d47;">Agenda</h3>
-            <p class="text-slate-500 leading-relaxed font-body">Visão mensal dos atendimentos com filtros por status e confirmação. Suporte a séries recorrentes (semanal, quinzenal, mensal). Criação rápida com modal integrado.</p>
-          </div>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Export & Import</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Exporte pacientes como CSV, agenda como PDF, dados como ZIP. Importe em massa de outros sistemas.</p>
         </div>
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div class="screenshot-frame shadow-lg">
-            <img src="screenshots/visaogeral.jpeg" alt="Dashboard com graficos de atendimentos e receita mensal" class="w-full h-auto" loading="lazy" />
-          </div>
-          <div class="space-y-3">
-            <h3 class="font-display text-2xl font-bold tracking-tight" style="color:#1a3d47;">Dashboard</h3>
-            <p class="text-slate-500 leading-relaxed font-body">Visão geral do consultório com contagem de atendimentos, próximos agendamentos e gráficos de evolução mensal. Exporte relatórios em PDF.</p>
-          </div>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Integracoes</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Link direto para WhatsApp. Botao para iniciar Google Meet. Acesso rapido ao contato do paciente.</p>
         </div>
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div class="screenshot-frame shadow-lg md:order-2">
-            <img src="screenshots/financeiro.jpeg" alt="Tela de controle financeiro com lista de pagamentos" class="w-full h-auto" loading="lazy" />
-          </div>
-          <div class="space-y-3 md:order-1">
-            <h3 class="font-display text-2xl font-bold tracking-tight" style="color:#1a3d47;">Financeiro</h3>
-            <p class="text-slate-500 leading-relaxed font-body">Registre pagamentos por consulta, filtre por mês/ano, visualize totais pagos e pendentes. Exporte planilhas em CSV para sua contabilidade.</p>
-          </div>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Auditoria</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Log completo de acoes realizadas no sistema. Sessoes de usuario, acessos, alteracoes importantes.</p>
+        </div>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Dashboard Completo</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Visao geral com graficos de atendimentos por mes, receita, taxa de comparecimento, e status de pagamentos.</p>
+        </div>
+        <div class="feature-card app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Configuracoes Flexiveis</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Horario de trabalho, valores padrao, duracao de sessoes. Personalize o sistema para seu fluxo de trabalho.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── How It Works ─── -->
+  <!-- Screenshots -->
+  <section id="screenshots" class="py-20 px-4" style="background:linear-gradient(180deg,rgba(212,231,236,.12),rgba(255,255,255,0))">
+    <div class="max-w-6xl mx-auto space-y-12">
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Capturas de tela</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Uma interface limpa e intuitiva</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <figure class="screenshot-frame">
+          <img src="screenshots/visaogeral.jpeg" alt="Visao geral do AtendeMente com graficos de atendimentos e receita" class="w-full h-auto" loading="lazy"/>
+          <figcaption class="p-3 text-sm font-medium text-center" style="color:#1a3d47">Visao Geral</figcaption>
+        </figure>
+        <figure class="screenshot-frame">
+          <img src="screenshots/agenda.jpeg" alt="Agenda semanal do AtendeMente com agendamentos" class="w-full h-auto" loading="lazy"/>
+          <figcaption class="p-3 text-sm font-medium text-center" style="color:#1a3d47">Agenda</figcaption>
+        </figure>
+        <figure class="screenshot-frame">
+          <img src="screenshots/pacientes.jpeg" alt="Lista de pacientes com busca e filtros" class="w-full h-auto" loading="lazy"/>
+          <figcaption class="p-3 text-sm font-medium text-center" style="color:#1a3d47">Pacientes</figcaption>
+        </figure>
+        <figure class="screenshot-frame">
+          <img src="screenshots/financeiro.jpeg" alt="Dashboard financeiro com grafico de receita" class="w-full h-auto" loading="lazy"/>
+          <figcaption class="p-3 text-sm font-medium text-center" style="color:#1a3d47">Financeiro</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Recurrence -->
   <section class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center space-y-3 mb-14">
-        <span class="inline-block text-xs font-medium px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566;">Como funciona</span>
-        <h2 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight" style="color:#1a3d47;">Comece a usar em 2 minutos</h2>
-        <p class="text-slate-500 max-w-xl mx-auto font-body">Sem cadastro online, sem nuvem, sem complicação.</p>
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5 order-2 lg:order-1">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Recorrencia inteligente</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Agendamentos que se repetem sozinhos</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Crie sessoes recorrentes semanalmente, quinzenalmente ou mensalmente. Escolha quando a recorrencia termina — apos um numero de vezes ou em uma data. Cancelamento individual mantem as demais, ou cancele toda a serie de uma vez.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Recorrencia semanal, quinzenal ou mensal</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-shrink-0" style="background-color:#1F7A8C"></span> Fim por data ou por numero de sessoes</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Cancelamento individual ou de toda a serie</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Excecoes para feriados e datas especificas</li>
+        </ul>
       </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center space-y-3">
-          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto shadow-sm text-white font-display font-bold text-xl" style="background-color:#1F7A8C;">1</div>
-          <h3 class="font-display font-semibold text-lg" style="color:#1a3d47;">Baixe o app</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Faça o download do instalador para Windows, macOS ou Linux.</p>
+      <div class="space-y-4 order-1 lg:order-2">
+        <div class="app-surface p-5 space-y-3">
+          <div class="flex items-center justify-between text-sm"><span style="color:#1a3d47" class="font-medium">Sessoes recorrentes criadas</span><span class="font-semibold" style="color:#1F7A8C">12</span></div>
+          <div class="flex items-center justify-between text-sm"><span style="color:#1a3d47" class="font-medium">Proxima sessao</span><span class="font-semibold" style="color:#1F7A8C">24 Jun, 14:00</span></div>
+          <div class="flex items-center justify-between text-sm"><span style="color:#1a3d47" class="font-medium">Frequencia</span><span class="font-semibold" style="color:#1F7A8C">Semanal</span></div>
+          <div class="flex items-center justify-between text-sm"><span style="color:#1a3d47" class="font-medium">Fim</span><span class="font-semibold" style="color:#1F7A8C">30 Set 2026</span></div>
         </div>
-        <div class="text-center space-y-3">
-          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto shadow-sm text-white font-display font-bold text-xl" style="background-color:#1F7A8C;">2</div>
-          <h3 class="font-display font-semibold text-lg" style="color:#1a3d47;">Crie sua conta</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Defina um email e senha. Seus dados ficam apenas no seu computador.</p>
-        </div>
-        <div class="text-center space-y-3">
-          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto shadow-sm text-white font-display font-bold text-xl" style="background-color:#1F7A8C;">3</div>
-          <h3 class="font-display font-semibold text-lg" style="color:#1a3d47;">Comece a usar</h3>
-          <p class="text-sm text-slate-500 leading-relaxed font-body">Cadastre pacientes, agende consultas, registre prontuários e organize seu financeiro.</p>
+        <div class="flex gap-3">
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">Cancelamento individual</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">Ou toda a serie</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── Security & Privacy ─── -->
-  <section id="about" class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div class="space-y-5">
-          <span class="inline-block text-xs font-medium px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566;">Privacidade</span>
-          <h2 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight" style="color:#1a3d47;">Seus dados, seu controle</h2>
-          <p class="text-slate-500 leading-relaxed font-body">
-            Diferente de sistemas na nuvem, o AtendeMente mantém todas as informações no seu computador.
-            Seus dados são criptografados com AES-256-GCM e ninguém — nem nós — tem acesso a eles.
-          </p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-sm text-slate-600">
-              <svg class="w-5 h-5 mt-0.5 shrink-0" style="color:#2D8C5C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              <span class="font-body"><strong>Criptografia ponta a ponta</strong> — dados pessoais criptografados antes de salvar.</span>
-            </li>
-            <li class="flex items-start gap-3 text-sm text-slate-600">
-              <svg class="w-5 h-5 mt-0.5 shrink-0" style="color:#2D8C5C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              <span class="font-body"><strong>Sem servidor externo</strong> — banco SQLite local.Não há nuvem para vazar.</span>
-            </li>
-            <li class="flex items-start gap-3 text-sm text-slate-600">
-              <svg class="w-5 h-5 mt-0.5 shrink-0" style="color:#2D8C5C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              <span class="font-body"><strong>Código aberto</strong> — 100% open source. Qualquer um pode auditar ou contribuir.</span>
-            </li>
-          </ul>
-        </div>
-        <div class="p-8 lg:p-10 text-white space-y-5" style="background-color:#1a3d47;border-radius:28px;">
-          <div class="flex items-center gap-3">
-            <svg class="w-6 h-6" style="color:#2D8C5C;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            <h3 class="font-display font-semibold text-lg">Tecnologias</h3>
+  <!-- Deep Feature: Encrypted Records -->
+  <section class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Prontuario criptografado</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Suas notas, protegidas com AES-256</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Cada paciente possui notas por sessao com campos estruturados e livres. Anexos sao criptografados junto com os dados. O prontuario fica completo e seguro — mesmo que o arquivo seja acessado diretamente.</p>
+        <div class="app-surface p-5 space-y-3">
+          <div class="text-sm font-medium" style="color:#1a3d47">Campos por sessao:</div>
+          <div class="grid grid-cols-2 gap-2 text-sm text-slate-500">
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#1F7A8C"></span> Titulo</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#1F7A8C"></span> Notas livres</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#1F7A8C"></span> Anexos</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#1F7A8C"></span> Data da sessao</span>
           </div>
-          <ul class="space-y-3 text-sm" style="color:#a9d0da;">
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#2D8C5C;"></span> Rust + Axum (backend)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#2D8C5C;"></span> React + TypeScript + Vite (frontend)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#2D8C5C;"></span> SQLite (banco de dados local)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#2D8C5C;"></span> AES-256-GCM (criptografia)</li>
-            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background-color:#2D8C5C;"></span> Tauri (aplicação desktop)</li>
+        </div>
+      </div>
+      <div class="app-surface p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium" style="color:#1a3d47">Nota da sessao — 18 Jun 2026</span>
+          <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">Criptografado</span>
+        </div>
+        <div class="space-y-2 text-sm text-slate-500 font-body">
+          <p><strong style="color:#1a3d47">Anotacoes livres:</strong> Paciente relatou melhoria no sono. Continuamos trabalhando...</p>
+          <p><strong style="color:#1a3d47">Anexos:</strong> 2 arquivo(s) anexado(s)</p>
+        </div>
+        <div class="flex items-center gap-2 pt-2">
+          <svg class="w-4 h-4" style="color:#2D8C5C" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span class="text-xs font-medium" style="color:#2D8C5C">AES-256-GCM — chave derivada via HKDF-SHA256</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Backup -->
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5 order-2 lg:order-1">
+        <div class="app-surface p-5 space-y-3 font-mono text-sm" style="color:#1a3d47">
+          <div class="flex items-center gap-2 text-xs font-medium" style="color:#1F7A8C"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg> Formato .atendemente</div>
+          <div class="space-y-1 text-xs" style="color:#1a3d47">
+            <div>ATND<span style="color:#6fb0c1">[16 bytes salt]</span></div>
+            <div><span style="color:#6fb0c1">[AES-256-GCM encrypted ZIP]</span></div>
+          </div>
+          <div class="text-xs text-slate-400 pt-1">Arquivo portavel, qualquer pessoa pode restaurar com a senha</div>
+        </div>
+      </div>
+      <div class="space-y-5 order-1 lg:order-2">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Backup & Restauracao</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Seus dados, seu arquivo</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Exporte todos os seus dados em um unico arquivo criptografado. Backup automatico configuravel por hora, dia ou semana. Restauracao em qualquer dispositivo com apenas a senha. Portavel — funciona em outra maquina sem configuracao.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Backup automatico ou manual</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Restauracao completa com uma senha</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Portavel entre dispositivos</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Ultimo backup sempre visivel no Dashboard</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Mobile Access -->
+  <section class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Acesso Mobile</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Acesse pelo celular na mesma rede</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Ative o Acesso Mobile nas configuracoes, escaneie o QR code com o celular e acesse o sistema pelo navegador. Sem app separado, sem nuvem — tudo pela rede local WiFi.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Ativacao com um clique em Configuracoes</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> QR code para pareamento rapido</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Funciona em qualquer navegador moderno</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Mesma interface responsiva do desktop</li>
+        </ul>
+      </div>
+      <div class="app-surface p-6 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+          <div>
+            <div class="text-sm font-medium" style="color:#1a3d47">Acesso Mobile</div>
+            <div class="text-xs" style="color:#2D8C5C">Ativo</div>
+          </div>
+        </div>
+        <div class="text-center py-8" style="background-color:#f7f5f2;border-radius:16px;border:2px dashed #a9d0da">
+          <svg class="w-16 h-16 mx-auto" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"/></svg>
+          <div class="text-sm font-medium mt-3" style="color:#1a3d47">Scanear QR Code</div>
+          <div class="text-xs text-slate-400 mt-1">192.168.1.100:3001</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Export & Import -->
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5 order-2 lg:order-1">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Export & Import</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Seus dados em qualquer formato</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Exporte pacientes como CSV, agenda como PDF, ou todos os dados como ZIP. Importe listas de pacientes em massa a partir de outros sistemas. Formatos padronizados para facil integracao.</p>
+        <div class="flex flex-wrap gap-3">
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">CSV</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">PDF</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">ZIP</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full" style="background-color:#d4e7ec;color:#1a5566">JSON</span>
+        </div>
+      </div>
+      <div class="space-y-4 order-1 lg:order-2">
+        <div class="app-surface p-5 space-y-3">
+          <div class="text-sm font-medium" style="color:#1a3d47">Pacientes exportados</div>
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>total_pacientes.csv</span><span style="color:#1F7A8C">2.4 KB</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>agenda_junho_2026.pdf</span><span style="color:#1F7A8C">156 KB</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-slate-500">
+            <span>backup_completo.zip</span><span style="color:#1F7A8C">4.2 MB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Integrations -->
+  <section class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Integracoes</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Conecte com suas ferramentas</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Acesso rapido ao WhatsApp do paciente com um clique. Botao para iniciar sessao no Google Meet. Links de contato integrados direto no prontuario.</p>
+        <div class="flex gap-4">
+          <div class="app-surface px-5 py-3 flex items-center gap-3">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span class="text-sm font-medium" style="color:#1a3d47">WhatsApp</span>
+          </div>
+          <div class="app-surface px-5 py-3 flex items-center gap-3">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#00897B"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="text-sm font-medium" style="color:#1a3d47">Google Meet</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-surface p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium" style="color:#1a3d47">Fernanda Costa</span>
+        </div>
+        <div class="flex gap-3">
+          <a href="#" class="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors" style="background-color:#25D366">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+          <a href="#" class="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors" style="background-color:#00897B">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Google Meet
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Security -->
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5 order-2 lg:order-1">
+        <div class="space-y-3">
+          <div class="app-surface px-5 py-3 flex items-center justify-between">
+            <span class="text-sm" style="color:#1a3d47">Auto-lock</span>
+            <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">5 min</span>
+          </div>
+          <div class="app-surface px-5 py-3 flex items-center justify-between">
+            <span class="text-sm" style="color:#1a3d47">Rate limiting</span>
+            <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">5 tentativas/min</span>
+          </div>
+          <div class="app-surface px-5 py-3 flex items-center justify-between">
+            <span class="text-sm" style="color:#1a3d47">Chave de criptografia</span>
+            <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">Keychain do OS</span>
+          </div>
+          <div class="app-surface px-5 py-3 flex items-center justify-between">
+            <span class="text-sm" style="color:#1a3d47">Derivacao de chave</span>
+            <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">HKDF-SHA256</span>
+          </div>
+          <div class="app-surface px-5 py-3 flex items-center justify-between">
+            <span class="text-sm" style="color:#1a3d47">Coleta de dados</span>
+            <span class="text-xs px-2 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">Zero</span>
+          </div>
+        </div>
+      </div>
+      <div class="space-y-5 order-1 lg:order-2">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Seguranca Profunda</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Privacidade nao e opcional</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Dados criptografados com AES-256-GCM. Chave derivada via HKDF-SHA256 a partir de uma pepper armazenada no keychain do sistema. Auto-lock apos inatividade. Rate limiting contra bruteforce. Nenhum dado sai do seu computador.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> PII criptografado no banco de dados</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Chave no keychain do Windows/macOS/Linux</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Backup com criptografia AES-256-GCM</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Senha de backup com minimo 12 caracteres</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Feature: Audit -->
+  <section class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="space-y-5">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Auditoria</p>
+        <h2 class="font-display text-3xl font-bold" style="color:#1a3d47">Registro completo de acoes</h2>
+        <p class="text-slate-500 leading-relaxed font-body">Cada acao importante no sistema e registrada com timestamp, tipo de operacao e detalhes. Sessoes de usuario, acessos, alteracoes de dados — tudo disponivel para consulta.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Log de acoes por sessao</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Timestamps de todas as operacoes</li>
+          <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Historico de acessos</li>
+        </ul>
+      </div>
+      <div class="app-surface p-5 space-y-3">
+        <div class="text-xs font-medium mb-3" style="color:#1F7A8C">Registro de auditoria</div>
+        <div class="space-y-2 text-xs" style="color:#1a3d47">
+          <div class="flex items-center justify-between py-1.5 border-b" style="border-color:#e2d9ce">
+            <span>LOGIN</span><span class="text-slate-400">23/06/2026 08:12</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b" style="border-color:#e2d9ce">
+            <span>PATIENT_CREATED</span><span class="text-slate-400">23/06/2026 08:15</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b" style="border-color:#e2d9ce">
+            <span>APPOINTMENT_CREATED</span><span class="text-slate-400">23/06/2026 08:16</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b" style="border-color:#e2d9ce">
+            <span>NOTE_CREATED</span><span class="text-slate-400">23/06/2026 09:00</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span>PAYMENT_UPDATED</span><span class="text-slate-400">23/06/2026 09:01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Differentials -->
+  <section id="differentials" class="py-20 px-4">
+    <div class="max-w-6xl mx-auto space-y-12">
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Diferenciais</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Por que o AtendeMente e diferente</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Offline-first</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Funciona sem internet. Sem nuvem, sem servidores externos. Seus dados ficam no seu computador.</p>
+        </div>
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Gratuito</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Sem mensalidade, sem plano premium, sem pegadinhas. Todas as funcionalidades, sem custo.</p>
+        </div>
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Privacidade total</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Zero coleta de dados. PII criptografado. Chave no keychain do sistema. Sem telemetria.</p>
+        </div>
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Open Source</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Codigo aberto. Qualquer pessoa pode auditar, contribuir ou自行 fazer modificacoes.</p>
+        </div>
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Multiplataforma</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Windows, macOS e Linux. Mesma interface, mesmas funcionalidades. Acesso mobile pela rede.</p>
+        </div>
+        <div class="app-surface p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color:#d4e7ec"><svg class="w-5 h-5" style="color:#1a5566" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+          <h3 class="font-display font-semibold" style="color:#1a3d47">Rapido e leve</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">Interface responsiva, startup em segundos. Sem carregamentos lentos, sem dependencias externas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="about" class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-6xl mx-auto space-y-12">
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Como funciona</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Pronto para usar em 5 minutos</h2>
+      </div>
+      <div class="grid md:grid-cols-5 gap-6">
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg mx-auto" style="background-color:#1F7A8C">1</div>
+          <h3 class="font-display font-semibold text-sm" style="color:#1a3d47">Baixe</h3>
+          <p class="text-xs text-slate-500">Acesse o Releases e baixe para seu sistema</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg mx-auto" style="background-color:#1F7A8C">2</div>
+          <h3 class="font-display font-semibold text-sm" style="color:#1a3d47">Instale</h3>
+          <p class="text-xs text-slate-500">Execute o instalador — menos de 1 minuto</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg mx-auto" style="background-color:#1F7A8C">3</div>
+          <h3 class="font-display font-semibold text-sm" style="color:#1a3d47">Cadastre-se</h3>
+          <p class="text-xs text-slate-500">Crie sua conta local com email e senha</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg mx-auto" style="background-color:#1F7A8C">4</div>
+          <h3 class="font-display font-semibold text-sm" style="color:#1a3d47">Configure</h3>
+          <p class="text-xs text-slate-500">Defina horarios, valores e preferencias</p>
+        </div>
+        <div class="text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg mx-auto" style="background-color:#2D8C5C">5</div>
+          <h3 class="font-display font-semibold text-sm" style="color:#1a3d47">Use!</h3>
+          <p class="text-xs text-slate-500">Comece a cadastrar pacientes e agendar</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto space-y-12">
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Depoimentos</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">O que dizem os usuarios</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="app-surface p-6 space-y-4">
+          <div class="flex gap-1">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-slate-500 leading-relaxed font-body italic">"Finalmente um sistema que respeita a privacidade dos pacientes. Offline, rapido, e sem mensalidade."</p>
+          <div class="text-xs font-medium" style="color:#1a3d47">Psicologa Clinica — Sao Paulo</div>
+        </div>
+        <div class="app-surface p-6 space-y-4">
+          <div class="flex gap-1">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-slate-500 leading-relaxed font-body italic">"Uso ha 3 meses. A recorrencia de sessoes economiza muito tempo. O prontuario criptografado me da seguranca."</p>
+          <div class="text-xs font-medium" style="color:#1a3d47">Psicologa Infantil — Belo Horizonte</div>
+        </div>
+        <div class="app-surface p-6 space-y-4">
+          <div class="flex gap-1">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="#F59E0B"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-slate-500 leading-relaxed font-body italic">"A parte financeira e excelente. Consigo ver minha receita mensal de um jeito que nunca consegui antes."</p>
+          <div class="text-xs font-medium" style="color:#1a3d47">Psicologo Organizacional — Curitiba</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-20 px-4" style="background-color:rgba(212,231,236,.08)">
+    <div class="max-w-3xl mx-auto space-y-12">
+      <div class="text-center space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Perguntas Frequentes</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Duvidas comuns</h2>
+      </div>
+      <div class="space-y-3">
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">Meus dados ficam na nuvem?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Nao. Todos os dados ficam armazenados localmente no seu computador. Nenhuma informacao e enviada para servidores externos. O AtendeMente funciona 100% offline.</p>
+          </div>
+        </div>
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">Posso usar em mais de um computador?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Sim. Use o Acesso Mobile para acessar pelo celular na mesma rede WiFi. Para outro computador, exporte um backup e importe no novo dispositivo.</p>
+          </div>
+        </div>
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">O que acontece se eu perder o computador?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Se voce mantiver backups atualizados em local seguro (pen drive, HD externo, armazenamento local), pode restaurar todos os dados em qualquer computador com a senha de backup.</p>
+          </div>
+        </div>
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">A criptografia e segura?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Sim. Utilizamos AES-256-GCM, o mesmo padrao usado por bancos e governos. A chave e derivada via HKDF-SHA256 e armazenada no keychain do sistema operacional.</p>
+          </div>
+        </div>
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">Preciso de internet para usar?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Nao. O AtendeMente funciona 100% offline. A internet e necessaria apenas para baixar atualizacoes e acessar links externos (WhatsApp, Google Meet).</p>
+          </div>
+        </div>
+        <div class="faq-item app-surface overflow-hidden">
+          <button class="faq-toggle w-full text-left px-6 py-4 flex items-center justify-between" aria-expanded="false">
+            <span class="font-display font-semibold text-sm" style="color:#1a3d47">O software e realmente gratuito?</span>
+            <svg class="w-5 h-5 flex-shrink-0 transition-transform" style="color:#1a3d47" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer px-6 pb-4">
+            <p class="text-sm text-slate-500 leading-relaxed font-body">Sim. Todas as funcionalidades estao disponiveis sem custo. Sem plano premium, sem assinatura, sem pegadinhas. Open source sob licenca MIT.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Changelog -->
+  <section class="py-20 px-4">
+    <div class="max-w-3xl mx-auto space-y-8">
+      <div class="text-center space-y-4">
+        <p class="text-sm font-medium uppercase tracking-widest" style="color:#1F7A8C">Changelog</p>
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Ultimas atualizacoes</h2>
+      </div>
+      <div class="space-y-6">
+        <div class="app-surface p-6 space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">v1.0.16</span>
+            <span class="text-xs text-slate-400">Junho 2026</span>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Acesso Mobile com QR code e toggle</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Token persistido em sessionStorage (fix F5)</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Fix: ultimo dia do mes some no calendario</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Fix: SQL injection em filtros de pacientes</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> HSTS header para HTTPS</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Code splitting com React.lazy()</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Melhorias de acessibilidade (ARIA, focus trap)</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#2D8C5C"></span> Pagina 404 personalizada</li>
+          </ul>
+        </div>
+        <div class="app-surface p-6 space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold px-3 py-1 rounded-full" style="background-color:#d4e7ec;color:#1a5566">v1.0.15</span>
+            <span class="text-xs text-slate-400">Junho 2026</span>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-500">
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Onboarding interativo para novos usuarios</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Recuperacao manual por email + codigo</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Recovery code reutilizavel</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Security status card no Dashboard</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Modal "Novo Atendimento" com hora automatica</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Paciente pre-selecionado ao criar agendamento</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> WhatsApp link no prontuario</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Google Meet button no prontuario</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Cancelamento de serie inteira</li>
+            <li class="flex items-start gap-2"><span class="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:#1F7A8C"></span> Backup data fix no Dashboard</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── CTA ─── -->
+  <!-- CTA -->
   <section id="cta" class="py-20 px-4">
-    <div class="max-w-3xl mx-auto text-center app-surface p-10 lg:p-14 shadow-sm">
-      <h2 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight" style="color:#1a3d47;">Pronto para experimentar?</h2>
-      <p class="text-slate-500 max-w-lg mx-auto mt-4 font-body">AtendeMente é gratuito e open source. Faça o download e comece a organizar sua clínica hoje mesmo.</p>
-      <div class="flex flex-wrap justify-center gap-4 mt-8">
-        <a href="https://github.com/Clebson-Torres/atendemente-local/releases/latest" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white font-medium px-7 py-3.5 rounded-xl transition-colors duration-200 focus-ring shadow-sm" style="background-color:#1F7A8C;" onmouseover="this.style.backgroundColor='#1A6B7B'" onmouseout="this.style.backgroundColor='#1F7A8C'">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Baixar para Windows
-        </a>
-        <a href="https://github.com/Clebson-Torres/atendemente-local" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-medium px-7 py-3.5 rounded-xl transition-colors duration-200 focus-ring" style="border:1px solid #e2d9ce;color:#1F7A8C;" onmouseover="this.style.backgroundColor='#f4f9fa'" onmouseout="this.style.backgroundColor='transparent'">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          Ver no GitHub
-        </a>
+    <div class="max-w-4xl mx-auto">
+      <div class="app-surface p-8 md:p-12 text-center space-y-8" style="background:linear-gradient(135deg,rgba(31,122,140,.06),rgba(45,140,92,.06))">
+        <h2 class="font-display text-3xl md:text-4xl font-bold" style="color:#1a3d47">Comece a organizar seu consultorio hoje</h2>
+        <p class="text-slate-500 max-w-lg mx-auto font-body">Gratis, offline, e com privacidade total. Sem cartao de credito, sem assinatura, sem pegadinhas.</p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm">
+          <div class="app-surface px-5 py-3 text-center">
+            <div class="text-2xl font-bold" style="color:#1F7A8C">R$ 0</div>
+            <div class="text-xs text-slate-400">para sempre</div>
+          </div>
+          <div class="app-surface px-5 py-3 text-center">
+            <div class="text-2xl font-bold" style="color:#1F7A8C">122+</div>
+            <div class="text-xs text-slate-400">funcionalidades</div>
+          </div>
+          <div class="app-surface px-5 py-3 text-center">
+            <div class="text-2xl font-bold" style="color:#1F7A8C">100%</div>
+            <div class="text-xs text-slate-400">offline</div>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="https://github.com/Clebson-Torres/atendemente-local/releases/latest" class="inline-flex items-center gap-2 text-white font-medium px-8 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer shadow-sm" style="background-color:#1F7A8C">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            Baixar v1.0.16
+          </a>
+          <a href="https://github.com/Clebson-Torres/atendemente-local" class="inline-flex items-center gap-2 font-medium px-6 py-3 rounded-xl transition-colors duration-200 focus-ring cursor-pointer border" style="border-color:#a9d0da;color:#1a3d47">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            Ver no GitHub
+          </a>
+        </div>
       </div>
-      <p class="text-xs mt-4" style="color:#a9d0da;">Disponível para Windows, macOS e Linux.</p>
     </div>
   </section>
 
-  <!-- ─── Footer ─── -->
-  <footer class="py-10 px-4 border-t" style="border-color:#e2d9ce;">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm" style="color:#a9d0da;">
-      <div class="flex items-center gap-2">
-        <span class="w-6 h-6 rounded flex items-center justify-center text-white text-xs font-bold" style="background-color:#1F7A8C;">A</span>
-        <span class="font-medium" style="color:#1a3d47;">AtendeMente</span>
+  <!-- Footer -->
+  <footer class="py-12 px-4 border-t" style="border-color:#e2d9ce">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+      <div class="space-y-4">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-bold" style="background-color:#1F7A8C">A</span>
+          <span class="font-display font-semibold text-lg" style="color:#1a3d47">AtendeMente</span>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed font-body max-w-xs">Sistema gratuito e offline-first para psicologos autônomos. Privacidade e seguranca em primeiro lugar.</p>
       </div>
-      <p class="font-body">&copy; 2026 AtendeMente. Open source sob licença MIT.</p>
-      <a href="https://github.com/Clebson-Torres/atendemente-local" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity focus-ring rounded-lg p-1" aria-label="GitHub">
-        <svg class="w-5 h-5" style="color:#1a3d47;" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-      </a>
+      <div class="space-y-3">
+        <h4 class="font-display font-semibold text-sm" style="color:#1a3d47">Links</h4>
+        <div class="space-y-2 text-sm text-slate-400">
+          <a href="#features" class="block hover:text-teal-700 transition-colors">Funcionalidades</a>
+          <a href="#differentials" class="block hover:text-teal-700 transition-colors">Diferenciais</a>
+          <a href="#faq" class="block hover:text-teal-700 transition-colors">Perguntas Frequentes</a>
+          <a href="https://github.com/Clebson-Torres/atendemente-local/releases" class="block hover:text-teal-700 transition-colors">Releases</a>
+          <a href="https://github.com/Clebson-Torres/atendemente-local" class="block hover:text-teal-700 transition-colors">GitHub</a>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <h4 class="font-display font-semibold text-sm" style="color:#1a3d47">Legal</h4>
+        <div class="space-y-2 text-sm text-slate-400">
+          <p>Licenca MIT</p>
+          <p>Sem coleta de dados</p>
+          <p>Sem termos de servico</p>
+          <p>Sem politica de privacidade (nao coletamos nada)</p>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto mt-8 pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-4" style="border-color:#e2d9ce">
+      <p class="text-xs text-slate-400">2026 AtendeMente. Licenciado sob MIT.</p>
+      <p class="text-xs text-slate-400">Feito com dedicacao para a comunidade de psicologia.</p>
     </div>
   </footer>
 
+  <!-- FAQ Script -->
+  <script>
+    document.querySelectorAll('.faq-toggle').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var answer=this.nextElementSibling;
+        var icon=this.querySelector('svg');
+        var isOpen=answer.classList.contains('open');
+        document.querySelectorAll('.faq-answer.open').forEach(function(a){a.classList.remove('open')});
+        document.querySelectorAll('.faq-toggle[aria-expanded="true"]').forEach(function(b){b.setAttribute('aria-expanded','false');b.querySelector('svg').style.transform=''});
+        if(!isOpen){answer.classList.add('open');this.setAttribute('aria-expanded','true');icon.style.transform='rotate(180deg)'}
+      });
+    });
+  </script>
 </body>
 </html>
