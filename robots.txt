@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://atendemente.app/sitemap.xml
+Sitemap: https://clebson-torres.github.io/atendemente.app/sitemap.xml
